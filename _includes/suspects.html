@@ -3,11 +3,23 @@
     <tr>
       <th>Name</th>
       <th>Status</th>
+      <th>P1</th>
+      <th>P2</th>
+      <th>P3</th>
+      <th>P4</th>
+      <th>P5</th>
+      <th>P6</th>
     </tr>
   {% for suspect in site.data.suspects %}
     {% if suspect.base_character or suspect.edition == edition%}
         <tr>
             <td class="guess-component">{{ suspect.name }}</td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
         </tr>
     {% endif %}

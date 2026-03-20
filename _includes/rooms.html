@@ -3,11 +3,23 @@
     <tr>
       <th>Name</th>
       <th>Status</th>
+      <th>P1</th>
+      <th>P2</th>
+      <th>P3</th>
+      <th>P4</th>
+      <th>P5</th>
+      <th>P6</th>
     </tr>
   {% for room in site.data.rooms %}
     {% if room.base or room.edition == edition %}
         <tr>
             <td class="guess-component">{{ room.name }}</td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
+            <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
         </tr>
     {% endif %}
