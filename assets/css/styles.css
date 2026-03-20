@@ -29,8 +29,12 @@
   border: 1px solid #ccc;
   text-align: center;
   font-weight: bold;
-  width: 40px;
+  min-width: 70px;
+  width: auto;
+  max-width: 24ch;
   font-size: 14px;
+  padding: 2px 6px;
+  box-sizing: content-box;
 }
 
 .player-name:focus {

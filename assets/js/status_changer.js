@@ -26,6 +26,13 @@ function statusButtonChanger (control) {
   saveState()
 }
 
+// Function to update player name input width based on value
+function adjustPlayerNameWidth(input) {
+  const length = Math.max(1, input.value.length)
+  const widthInCh = Math.min(Math.max(length + 1, 8), 24)
+  input.style.width = `${widthInCh}ch`
+}
+
 // Function to sync player names
 function syncPlayerNames(playerNum, value) {
   const inputs = document.querySelectorAll(`input.player-name[data-player="${playerNum}"]`)
@@ -33,6 +40,7 @@ function syncPlayerNames(playerNum, value) {
     if (input.value !== value) {
       input.value = value
     }
+    adjustPlayerNameWidth(input)
   })
   saveState()
 }
@@ -70,6 +78,7 @@ function loadState() {
     const inputs = document.querySelectorAll(`input.player-name[data-player="${playerNum}"]`)
     inputs.forEach(input => {
       input.value = state.playerNames[playerNum]
+      adjustPlayerNameWidth(input)
     })
   }
 
@@ -125,9 +134,11 @@ window.onload = function () {
 
   const playerInputs = document.querySelectorAll('input.player-name')
   playerInputs.forEach(input => {
+    adjustPlayerNameWidth(input)
     input.addEventListener('input', function() {
       const playerNum = this.getAttribute('data-player')
       syncPlayerNames(playerNum, this.value)
+      adjustPlayerNameWidth(this)
     })
   })
 
