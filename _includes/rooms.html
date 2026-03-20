@@ -3,12 +3,12 @@
     <tr>
       <th>Name</th>
       <th>Status</th>
-      <th>P1</th>
-      <th>P2</th>
-      <th>P3</th>
-      <th>P4</th>
-      <th>P5</th>
-      <th>P6</th>
+      <th><input type="text" value="P1" class="player-name" data-player="1" /></th>
+      <th><input type="text" value="P2" class="player-name" data-player="2" /></th>
+      <th><input type="text" value="P3" class="player-name" data-player="3" /></th>
+      <th><input type="text" value="P4" class="player-name" data-player="4" /></th>
+      <th><input type="text" value="P5" class="player-name" data-player="5" /></th>
+      <th><input type="text" value="P6" class="player-name" data-player="6" /></th>
     </tr>
   {% for room in site.data.rooms %}
     {% if room.base or room.edition == edition %}
