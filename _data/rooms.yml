@@ -7,30 +7,30 @@
   base: true
   emoji: 🍳
 
-- name: Conservatory
+- name: Living Room
   base: true
   emoji: 🔭
 
-- name: Billiard Room
+- name: Games Room
   base: true
   emoji: 🎱
 
-- name: Library
+- name: Courtyard
   base: true
   emoji: 📚
 
 # Standard Edition only
-- name: Lounge
+- name: Bedroom
   base: false
   edition: standard
   emoji: 🛋️
 
-- name: Hall
+- name: Garage
   base: false
   edition: standard
   emoji: 🏛️
 
-- name: Ballroom
+- name: Bathroom
   base: false
   edition: standard
   emoji: 🕺
