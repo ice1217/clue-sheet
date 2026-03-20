@@ -1,4 +1,4 @@
-- name: Knife
+- name: Dagger
   base: true
   emoji: 🔪
   
@@ -6,7 +6,7 @@
   base: true
   emoji: 🕎
 
-- name: Revolver
+- name: Pistol
   base: true
   emoji: 🔫
 
