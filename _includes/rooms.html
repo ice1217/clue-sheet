@@ -13,7 +13,7 @@
   {% for room in site.data.rooms %}
     {% if room.base or room.edition == edition %}
         <tr>
-            <td class="unused-cell">☐</td>
+            <td><input type="button" class="multi-checkbox unused-checkbox" value="&#x2B1C;" /></td>
             <td class="guess-component">{{ room.name }}</td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>

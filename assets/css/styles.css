@@ -33,6 +33,16 @@
   font-size: 16px;
 }
 
+/* Unused Row Styling - when item is marked as unused */
+tr.unused-row {
+  opacity: 0.6;
+}
+
+tr.unused-row td {
+  text-decoration: line-through;
+  color: #999;
+}
+
 /* Player name inputs */
 .player-name {
   background: transparent;

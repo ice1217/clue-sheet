@@ -13,16 +13,29 @@ function statusButtonChanger (control) {
   }
   control.value = Data[index].value
   const clue = $(control).closest('td').siblings('.guess-component') // eslint-disable-line no-undef
-  switch (Data[index].status) {
-    case 'x':
-      clue.toggleClass('x').siblings().removeClass('checked')
-      break
-    case 'checked':
-      clue.toggleClass('checked').siblings().removeClass('x')
-      break
-    default:
-      clue.removeClass('x checked')
+  
+  // Handle unused column checkbox
+  if (control.classList.contains('unused-checkbox')) {
+    const row = control.closest('tr')
+    if (Data[index].status === 'checked') {
+      row.classList.add('unused-row')
+    } else {
+      row.classList.remove('unused-row')
+    }
+  } else {
+    // Regular checkbox styling
+    switch (Data[index].status) {
+      case 'x':
+        clue.toggleClass('x').siblings().removeClass('checked')
+        break
+      case 'checked':
+        clue.toggleClass('checked').siblings().removeClass('x')
+        break
+      default:
+        clue.removeClass('x checked')
+    }
   }
+  
   saveState()
 }
 
@@ -234,18 +247,30 @@ function loadState() {
   for (const index in state.checkboxes) {
     if (checkboxes[index]) {
       checkboxes[index].value = state.checkboxes[index]
-      // Also update the classes
-      const clue = $(checkboxes[index]).closest('td').siblings('.guess-component') // eslint-disable-line no-undef
-      const status = getStatusFromValue(state.checkboxes[index])
-      switch (status) {
-        case 'x':
-          clue.addClass('x').removeClass('checked')
-          break
-        case 'checked':
-          clue.addClass('checked').removeClass('x')
-          break
-        default:
-          clue.removeClass('x checked')
+      
+      // Handle unused column styling
+      if (checkboxes[index].classList.contains('unused-checkbox')) {
+        const row = checkboxes[index].closest('tr')
+        const status = getStatusFromValue(state.checkboxes[index])
+        if (status === 'checked') {
+          row.classList.add('unused-row')
+        } else {
+          row.classList.remove('unused-row')
+        }
+      } else {
+        // Regular checkbox styling
+        const clue = $(checkboxes[index]).closest('td').siblings('.guess-component') // eslint-disable-line no-undef
+        const status = getStatusFromValue(state.checkboxes[index])
+        switch (status) {
+          case 'x':
+            clue.addClass('x').removeClass('checked')
+            break
+          case 'checked':
+            clue.addClass('checked').removeClass('x')
+            break
+          default:
+            clue.removeClass('x checked')
+        }
       }
     }
   }

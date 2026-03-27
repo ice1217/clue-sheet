@@ -13,7 +13,7 @@
   {% for suspect in site.data.suspects %}
     {% if suspect.base_character or suspect.edition == edition%}
         <tr>
-            <td class="unused-cell">☐</td>
+            <td><input type="button" class="multi-checkbox unused-checkbox" value="&#x2B1C;" /></td>
             <td class="guess-component">{{ suspect.name }}</td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
