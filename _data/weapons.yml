@@ -1,33 +1,47 @@
-- name: Dagger
-  base: true
-  emoji: 🔪
-  
+# Base
+
 - name: Candlestick
   base: true
   emoji: 🕎
-
-- name: Pistol
-  base: true
-  emoji: 🔫
 
 - name: Rope
   base: true
   emoji: ⛓️
 
-- name: Lead Pipe
+- name: Pistol
   base: true
+  emoji: 🔫
+
+# Standard Edition
+
+- name: Dagger
+  base: false
+  edition: standard
+  emoji: 🔪
+
+- name: Lead Pipe
+  base: false
+  edition: standard
   emoji: 🦿
 
 - name: Wrench
-  base: true
+  base: false
+  edition: standard
   emoji: 🔧
+
+# Mini Edition
+
+- name: Knife
+  base: false
+  edition: mini
+  emoji: 🔪
 
 - name: Poison
   base: false
-  edition: master
+  edition: mini
   emoji: 🏺
 
-- name: Horseshoe
+- name: Dumbbell
   base: false
-  edition: master
-  emoji: 🐴
+  edition: mini
+  emoji: 🔧

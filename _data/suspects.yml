@@ -22,23 +22,23 @@
   base_character: true
   emoji: 🟥
 
-- name: Mme. Rose
-  base_character: false
-  edition: master
-  emoji: 🌹
+# - name: Mme. Rose
+#   base_character: false
+#   edition: master
+#   emoji: 🌹
 
-- name: Sgt. Gray
-  base_character: false
-  edition: master
-  emoji: 👨‍🦳
+# - name: Sgt. Gray
+#   base_character: false
+#   edition: master
+#   emoji: 👨‍🦳
 
-- name: M. Brunette
-  base_character: false
-  edition: master
-  emoji: 🟫
+# - name: M. Brunette
+#   base_character: false
+#   edition: master
+#   emoji: 🟫
 
-- name: Ms. Peach
-  base_character: false
-  edition: master
-  emoji: 🍑
+# - name: Ms. Peach
+#   base_character: false
+#   edition: master
+#   emoji: 🍑
 

@@ -1,4 +1,5 @@
-# Base Rooms
+# Base
+
 - name: Dining Room
   base: true
   emoji: 🍽️
@@ -11,15 +12,18 @@
   base: true
   emoji: 🔭
 
+# Standard Edition
+
 - name: Games Room
-  base: true
+  base: false
+  edition: standard
   emoji: 🎱
 
 - name: Courtyard
-  base: true
+  base: false
+  edition: standard
   emoji: 📚
 
-# Standard Edition only
 - name: Bedroom
   base: false
   edition: standard
@@ -40,38 +44,34 @@
   edition: standard
   emoji: 📜
 
-# Master Edition only
-- name: Courtyard
+# Mini Edition
+
+- name: Hall
   base: false
-  edition: master
+  edition: mini
   emoji: 🗿
 
-- name: Gazebo
+- name: Observatory
   base: false
-  edition: master
-  emoji: 🏯
+  edition: mini
+  emoji: 🔭
 
-- name: Drawing Room
+- name: Guest House
   base: false
-  edition: master
-  emoji: ✏️
-
-- name: Carriage House
-  base: false
-  edition: master
+  edition: mini
   emoji: 🐎
 
-- name: Trophy Room
+- name: Theater
   base: false
-  edition: master
-  emoji: 🏆
+  edition: mini
+  emoji: 🏯
 
-- name: Studio
+- name: Patio
   base: false
-  edition: master
+  edition: mini
   emoji: 🎨
 
-- name: Fountain
+- name: Spa
   base: false
-  edition: master
+  edition: mini
   emoji: ⛲
