@@ -6,6 +6,39 @@ function statusButtonChanger (control) {
     { status: 'checked', value: '\u2705' }
   ]
 
+  // Handle unused column checkbox - only cycles between ☐ and ❌
+  if (control.classList.contains('unused-checkbox')) {
+    const row = control.closest('tr')
+    const currentValue = control.value
+    
+    if (currentValue === '\u274c') {
+      // Currently ❌, switch to ☐
+      control.value = '\u2B1C'
+      row.classList.remove('unused-row')
+      // Reset all checkboxes in the row to ☐
+      const rowCheckboxes = row.querySelectorAll('input.multi-checkbox:not(.unused-checkbox)')
+      rowCheckboxes.forEach(cb => {
+        cb.value = '\u2B1C' // ☐
+        const componentCell = $(cb).closest('td').siblings('.guess-component')
+        componentCell.removeClass('x checked')
+      })
+    } else {
+      // Currently ☐, switch to ❌
+      control.value = '\u274c'
+      row.classList.add('unused-row')
+      // Set all checkboxes in row to ❌
+      const rowCheckboxes = row.querySelectorAll('input.multi-checkbox:not(.unused-checkbox)')
+      rowCheckboxes.forEach(cb => {
+        cb.value = '\u274c' // ❌
+        const componentCell = $(cb).closest('td').siblings('.guess-component')
+        componentCell.addClass('x').removeClass('checked')
+      })
+    }
+    saveState()
+    return
+  }
+
+  // Regular checkbox - cycles through all 4 states
   let index = Data.map(function (e) { return e.value }).indexOf(control.value)
   index++
   if ((index) >= Data.length) {
@@ -14,26 +47,15 @@ function statusButtonChanger (control) {
   control.value = Data[index].value
   const clue = $(control).closest('td').siblings('.guess-component') // eslint-disable-line no-undef
   
-  // Handle unused column checkbox
-  if (control.classList.contains('unused-checkbox')) {
-    const row = control.closest('tr')
-    if (Data[index].status === 'checked') {
-      row.classList.add('unused-row')
-    } else {
-      row.classList.remove('unused-row')
-    }
-  } else {
-    // Regular checkbox styling
-    switch (Data[index].status) {
-      case 'x':
-        clue.toggleClass('x').siblings().removeClass('checked')
-        break
-      case 'checked':
-        clue.toggleClass('checked').siblings().removeClass('x')
-        break
-      default:
-        clue.removeClass('x checked')
-    }
+  switch (Data[index].status) {
+    case 'x':
+      clue.toggleClass('x').siblings().removeClass('checked')
+      break
+    case 'checked':
+      clue.toggleClass('checked').siblings().removeClass('x')
+      break
+    default:
+      clue.removeClass('x checked')
   }
   
   saveState()
@@ -252,10 +274,26 @@ function loadState() {
       if (checkboxes[index].classList.contains('unused-checkbox')) {
         const row = checkboxes[index].closest('tr')
         const status = getStatusFromValue(state.checkboxes[index])
-        if (status === 'checked') {
+        if (status === 'x') {
+          // Marked as unused - apply strikethrough to entire row
           row.classList.add('unused-row')
+          // Also set all checkboxes in the row to ❌
+          const rowCheckboxes = row.querySelectorAll('input.multi-checkbox:not(.unused-checkbox)')
+          rowCheckboxes.forEach(cb => {
+            cb.value = '\u274c' // ❌
+            const componentCell = $(cb).closest('td').siblings('.guess-component')
+            componentCell.addClass('x').removeClass('checked')
+          })
         } else {
+          // Not marked as unused
           row.classList.remove('unused-row')
+          // Reset all checkboxes in the row to ☐
+          const rowCheckboxes = row.querySelectorAll('input.multi-checkbox:not(.unused-checkbox)')
+          rowCheckboxes.forEach(cb => {
+            cb.value = '\u2B1C' // ☐
+            const componentCell = $(cb).closest('td').siblings('.guess-component')
+            componentCell.removeClass('x checked')
+          })
         }
       } else {
         // Regular checkbox styling
