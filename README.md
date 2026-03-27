@@ -7,9 +7,4 @@ Based on lowlydba's version -> https://github.com/lowlydba/clue-sheet
 
 Short link: [bit.ly/clue-sheet](https://bit.ly/cluedopardede)
 
-## Editions
-
-| Edition |
-| ------- |
 | [Clue](https://ice1217.github.io/clue-sheet/clue) |
-| [Clue Master](https://ice1217.github.io/clue-sheet/clue-mini) |
