@@ -45,7 +45,151 @@ function syncPlayerNames(playerNum, value) {
   saveState()
 }
 
-// Function to save state to localStorage
+
+
+function getStatusFromValue(value) {
+  const Data = [
+    { status: 'unchecked', value: '\u2B1C' },
+    { status: 'x', value: '\u274c' },
+    { status: 'question', value: '\u2753' },
+    { status: 'checked', value: '\u2705' }
+  ]
+  const item = Data.find(d => d.value === value)
+  return item ? item.status : 'unchecked'
+}
+
+// ===== Configuration Modal Functions =====
+
+function showConfigModal() {
+  document.getElementById('config-modal').style.display = 'flex'
+  // Show cancel button on subsequent opens
+  const isFirstLoad = !localStorage.getItem('gameConfig')
+  document.getElementById('config-cancel').style.display = isFirstLoad ? 'none' : 'inline-block'
+}
+
+function hideConfigModal() {
+  document.getElementById('config-modal').style.display = 'none'
+}
+
+function updatePlayerNameFields(count) {
+  const container = document.getElementById('player-names-inputs')
+  const section = document.getElementById('player-names-section')
+  
+  container.innerHTML = ''
+  
+  if (!count || count < 2 || count > 6) {
+    section.style.display = 'none'
+    return
+  }
+  
+  section.style.display = 'block'
+  
+  for (let i = 1; i <= parseInt(count); i++) {
+    const div = document.createElement('div')
+    div.className = 'player-name-input-group'
+    div.innerHTML = `
+      <label for="player-${i}">Player ${i}:</label>
+      <input type="text" id="player-${i}" value="P${i}" class="config-player-input" />
+    `
+    container.appendChild(div)
+  }
+}
+
+function submitConfiguration() {
+  const edition = document.querySelector('input[name="edition"]:checked').value
+  const playerCount = document.getElementById('player-count').value
+  
+  if (!playerCount) {
+    alert('Please select the number of players')
+    return
+  }
+  
+  const playerNames = {}
+  for (let i = 1; i <= parseInt(playerCount); i++) {
+    const input = document.getElementById(`player-${i}`)
+    playerNames[i] = input.value || `P${i}`
+  }
+  
+  const gameConfig = {
+    edition: edition,
+    playerCount: parseInt(playerCount),
+    playerNames: playerNames
+  }
+  
+  localStorage.setItem('gameConfig', JSON.stringify(gameConfig))
+  hideConfigModal()
+  renderGameSheet(gameConfig)
+}
+
+function renderGameSheet(config) {
+  // Hide both editions first
+  document.getElementById('game-standard').style.display = 'none'
+  document.getElementById('game-mini').style.display = 'none'
+  
+  // Show appropriate edition
+  const editionId = `game-${config.edition}`
+  document.getElementById(editionId).style.display = 'block'
+  
+  // Get all tables in the active edition
+  const activeEdition = document.getElementById(editionId)
+  const tables = activeEdition.querySelectorAll('table')
+  
+  tables.forEach(table => {
+    // Update player name inputs and hide/show columns
+    for (let playerNum = 1; playerNum <= 6; playerNum++) {
+      const inputs = table.querySelectorAll(`input.player-name[data-player="${playerNum}"]`)
+      inputs.forEach(input => {
+        const shouldShow = playerNum <= config.playerCount
+        // Hide/show the th (header cell)
+        input.parentElement.style.display = shouldShow ? '' : 'none'
+        
+        if (shouldShow) {
+          input.value = config.playerNames[playerNum] || `P${playerNum}`
+          adjustPlayerNameWidth(input)
+        }
+      })
+    }
+    
+    // Hide unused player columns in checkbox cells
+    const allRows = table.querySelectorAll('tr')
+    
+    for (let playerNum = 1; playerNum <= 6; playerNum++) {
+      allRows.forEach((row, rowIndex) => {
+        if (rowIndex === 0) return // Skip header row (it's handled by the player-name input styling)
+        
+        // Find the checkbox cells for this player (skip first cell which is unused column, skip second which is name)
+        const cells = row.querySelectorAll('td')
+        if (cells[playerNum + 1]) { // +1 for unused column, +1 for name column
+          cells[playerNum + 1].style.display = playerNum <= config.playerCount ? '' : 'none'
+        }
+      })
+    }
+  })
+  
+  // Clear and reload state for this configuration
+  clearGameState()
+  loadState()
+  attachEventHandlers()
+}
+
+function clearGameState() {
+  const config = JSON.parse(localStorage.getItem('gameConfig'))
+  if (config) {
+    const stateKey = `clueSheetState-${config.edition}-${config.playerCount}`
+    localStorage.removeItem(stateKey)
+  }
+}
+
+function getStateKey() {
+  const config = JSON.parse(localStorage.getItem('gameConfig'))
+  if (config) {
+    return `clueSheetState-${config.edition}-${config.playerCount}`
+  }
+  return 'clueSheetState'
+}
+
+// Override saveState to use config-scoped key
+const originalSaveState = saveState
 function saveState() {
   const state = {
     playerNames: {},
@@ -65,12 +209,15 @@ function saveState() {
     state.checkboxes[index] = checkbox.value
   })
 
-  localStorage.setItem('clueSheetState', JSON.stringify(state))
+  const stateKey = getStateKey()
+  localStorage.setItem(stateKey, JSON.stringify(state))
 }
 
-// Function to load state from localStorage
+// Override loadState to use config-scoped key
+const originalLoadState = loadState
 function loadState() {
-  const state = JSON.parse(localStorage.getItem('clueSheetState'))
+  const stateKey = getStateKey()
+  const state = JSON.parse(localStorage.getItem(stateKey))
   if (!state) return
 
   // Load player names
@@ -104,27 +251,7 @@ function loadState() {
   }
 }
 
-function getStatusFromValue(value) {
-  const Data = [
-    { status: 'unchecked', value: '\u2B1C' },
-    { status: 'x', value: '\u274c' },
-    { status: 'question', value: '\u2753' },
-    { status: 'checked', value: '\u2705' }
-  ]
-  const item = Data.find(d => d.value === value)
-  return item ? item.status : 'unchecked'
-}
-
-// Function to reset
-function resetState() {
-  localStorage.removeItem('clueSheetState')
-  location.reload()
-}
-
-// Attach function to all checkboxes and player names
-window.onload = function () {
-  loadState()
-
+function attachEventHandlers() {
   const elements = document.getElementsByClassName('multi-checkbox')
   for (let i = 0; i < elements.length; i++) {
     elements[i].onclick = function () {
@@ -134,16 +261,49 @@ window.onload = function () {
 
   const playerInputs = document.querySelectorAll('input.player-name')
   playerInputs.forEach(input => {
-    adjustPlayerNameWidth(input)
-    input.addEventListener('input', function() {
-      const playerNum = this.getAttribute('data-player')
-      syncPlayerNames(playerNum, this.value)
-      adjustPlayerNameWidth(this)
-    })
+    input.removeEventListener('input', handlePlayerNameChange)
+    input.addEventListener('input', handlePlayerNameChange)
   })
+}
 
+function handlePlayerNameChange(event) {
+  const playerNum = this.getAttribute('data-player')
+  syncPlayerNames(playerNum, this.value)
+  adjustPlayerNameWidth(this)
+}
+
+// Attach function to all checkboxes and player names
+window.onload = function () {
+  // Setup configuration modal event listeners
+  const playerCountSelect = document.getElementById('player-count')
+  if (playerCountSelect) {
+    playerCountSelect.addEventListener('change', function() {
+      updatePlayerNameFields(this.value)
+    })
+  }
+  
+  const configSubmitBtn = document.getElementById('config-submit')
+  if (configSubmitBtn) {
+    configSubmitBtn.addEventListener('click', submitConfiguration)
+  }
+  
+  const configCancelBtn = document.getElementById('config-cancel')
+  if (configCancelBtn) {
+    configCancelBtn.addEventListener('click', hideConfigModal)
+  }
+  
   const resetButton = document.getElementById('reset-button')
   if (resetButton) {
-    resetButton.onclick = resetState
+    resetButton.onclick = showConfigModal
+  }
+  
+  // Check if game config exists
+  const gameConfig = localStorage.getItem('gameConfig')
+  if (gameConfig) {
+    // Render the game sheet with stored config
+    renderGameSheet(JSON.parse(gameConfig))
+  } else {
+    // Show configuration modal on first load
+    showConfigModal()
   }
 }

@@ -23,6 +23,16 @@
   text-decoration: line-through;
 }
 
+/* Unused Column Style */
+.unused-cell {
+  background-color: #f5f5f5;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  width: 70px;
+  font-size: 16px;
+}
+
 /* Player name inputs */
 .player-name {
   background: transparent;
@@ -42,7 +52,7 @@
   border-color: #007acc;
 }
 
-/* Reset button */
+/* Reset/New Game button */
 #reset-button {
   background: #f44336;
   color: white;
@@ -59,4 +69,134 @@
 
 #reset-button:hover {
   background: #da190b;
+}
+
+/* Configuration Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+}
+
+.config-section {
+  margin-bottom: 20px;
+}
+
+.config-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-weight: normal;
+  gap: 8px;
+}
+
+.radio-group input[type="radio"] {
+  cursor: pointer;
+  margin: 0;
+}
+
+#player-count {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#player-names-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-name-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.player-name-input-group label {
+  width: 100px;
+  margin: 0;
+  font-weight: normal;
+}
+
+.config-player-input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.config-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+.btn-secondary {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #da190b;
 }

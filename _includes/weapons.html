@@ -1,6 +1,7 @@
 <h2>Weapons</h2>
 <table>
     <tr>
+      <th>Unused</th>
       <th>Name</th>
       <th><input type="text" value="P1" class="player-name" data-player="1" /></th>
       <th><input type="text" value="P2" class="player-name" data-player="2" /></th>
@@ -12,6 +13,7 @@
   {% for weapon in site.data.weapons %}
     {% if weapon.base or weapon.edition == edition %}
         <tr>
+            <td class="unused-cell">☐</td>
             <td class="guess-component">{{ weapon.name }}</td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
             <td><input type="button" class="multi-checkbox" value="&#x2B1C;" /></td>
